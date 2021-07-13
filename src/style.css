@@ -27,27 +27,27 @@
 }
 
 body {
-  background-color: rgb(255, 243, 228);
-}
-
-main {
-  height: 100vh;
+  background-color: rgba(240, 240, 240, 0.836);
 }
 
 .container {
   width: 70%;
-  margin-left: 10%;
+  margin-left: 15%;
   background: #fff;
   margin-top: 15vh;
+  box-shadow: 5px 5px rgba(0, 0, 0, 0.253);
 }
 
 .app-title {
   font-size: 1.4em;
-
 }
 
 .move {
   height: 1em;
+}
+
+.refresh {
+  height: 1.1em;
 }
 
 .todo-item {
@@ -58,7 +58,7 @@ main {
   font-size: 1.4em;
 }
 
-left. {
+.left {
   align-items: center;
 }
 
@@ -72,6 +72,11 @@ input.check {
   margin-right: 1em;
 }
 
+.right-1 {
+  margin-right: 1em;
+  justify-content: end;
+}
+
 .js-todo-input {
   width: 100%;
   height: 100%;
@@ -80,10 +85,16 @@ input.check {
   color: rgba(0, 0, 0, 0.541);
 }
 
+.p-div {
+  justify-content: space-between;
+  align-items: center;
+}
+
 .clear {
   justify-content: center;
   align-items: center;
   font-size: 1.4em;
   height: 3.4em;
   color: rgba(0, 0, 0, 0.541);
+  background-color: rgba(240, 240, 240, 0.836);
 }
