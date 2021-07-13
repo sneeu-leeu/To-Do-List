@@ -1,14 +1,30 @@
 import _ from 'lodash';
 import './style.css';
 
-function component() {
-  const element = document.createElement('div');
+// This holds the to do list items
+let todoItems = [];
 
-  // Lodash, now imported by this script
-  element.innerHTML = _.join(['Hello', 'webpack'], ' ');
-  element.classList.add('hello');
+function addTodo(text) {
+  const todo = {
+    text,
+    checked: false,
+    index: Date.now(),
+  };
 
-  return element;
+  todoItems.push(todo);
+  console.log(todoItems);
 }
 
-document.body.appendChild(component());
+const form = document.querySelector('.js-form');
+form.addEventListener('submit', event => {
+  event.preventDefault();
+  const input = document.querySelector('.js-todo-input');
+
+  const text = input.value.trim();
+  if (text !== '') {
+    addTodo(text);
+    input.value = '';
+    input.focus();
+    todoItems.todo.idex ++
+  }
+});
