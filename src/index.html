@@ -4,16 +4,18 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="/src/fontawesome.css" rel="stylesheet">
   <title>To Do List</title>
 </head>
 <body>
-  <main>
-    <div class="container">      
-      <p class="app-title">To Do List</p>
-      <form class="js-form">
-        <input autofocus type="text" aria-label="Enter a new todo item" placeholder="Enter Task Here!" class="js-todo-input">
+  <main class="flex">
+    <div class="container border">      
+      <p class="app-title border height pad-left flex text-align">To Do List</p>
+      <form class="js-form height border text-align">
+        <input autofocus type="text" aria-label="Enter a new todo item" placeholder="Add to your list.." id="js-todo-input" class="js-todo-input pad-left">
       </form>
-      <ul class="todo-list js-todo-list"></ul>
+      <ul id="js-todo-list" class="todo-list js-todo-list"></ul>
+      <p class="border clear flex">Clear all Completed</p>
     </div>
   </main>
 
