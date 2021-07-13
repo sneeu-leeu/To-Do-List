@@ -28,3 +28,14 @@ form.addEventListener('submit', event => {
     todoItems.todo.idex ++
   }
 });
+
+function renderTodo(todo) {
+
+  const list = document.querySelector('.js-todo-list');
+  const isChecked = todo.checked ? 'done': '';
+  const node = document.createElement("li");
+
+  node.setAttribute('class', `todo-item ${isChecked}`);
+  node.setAttribute('data-key', todo.id);
+
+}
