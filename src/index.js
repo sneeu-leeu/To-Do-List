@@ -1,8 +1,19 @@
 /* eslint-disable no-unused-vars */
-import _ from 'lodash';
+/* eslint-disable no-plusplus */
+
+import _, { each } from 'lodash';
 import './style.css';
 
-const todoItems = [];
+const todoItems = [{
+  text: 'Finish Project',
+  checked: false,
+  index: 0,
+},
+{
+  text: 'Swim with Sharks',
+  checked: false,
+  index: 1,
+}];
 
 function renderTodo(todo) {
   const list = document.querySelector('.js-todo-list');
@@ -22,16 +33,15 @@ function renderTodo(todo) {
     </div>
   `;
 
-  list.append(node);
+  list.appendChild(node);
 }
 
 function addTodo(text) {
   const todo = {
     text,
     checked: false,
-    index: Date.now(),
+    index: todoItems.length,
   };
-
   todoItems.push(todo);
   renderTodo(todo);
 }
@@ -47,4 +57,10 @@ form.addEventListener('submit', (event) => {
     input.value = '';
     input.focus();
   }
+});
+
+window.addEventListener('load', (e) => {
+  todoItems.forEach((todo) => {
+    renderTodo(todo);
+  });
 });
