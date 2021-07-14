@@ -20,8 +20,9 @@ function renderTodo(todo) {
 
   const isChecked = todo.checked ? 'done' : '';
   const node = document.createElement('li');
-  node.setAttribute('class', `todo-item ${isChecked} border flex height pad-left`);
+  node.setAttribute('class', `todo-item ${isChecked} border flex height pad-left drag`);
   node.setAttribute('data-key', todo.index);
+  node.setAttribute('draggable', true);
   node.innerHTML = `
     <div class="left flex">
       <input class="check" id="${todo.index}" type="checkbox"/>
@@ -59,7 +60,7 @@ form.addEventListener('submit', (event) => {
   }
 });
 
-window.addEventListener('load', (e) => {
+window.addEventListener('load', () => {
   todoItems.forEach((todo) => {
     renderTodo(todo);
   });
