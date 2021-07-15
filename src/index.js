@@ -3,8 +3,11 @@
 
 import _, { each } from 'lodash';
 import './style.css';
+import { dragStart, dragOver, drop } from './move.js';
 
-const todoItems = [{
+const mainList = document.getElementById('js-todo-list');
+
+let todoItems = [{
   text: 'Finish Project',
   checked: false,
   index: 0,
@@ -35,6 +38,8 @@ function renderTodo(todo) {
   `;
 
   list.appendChild(node);
+  node.addEventListener('dragover', dragOver);
+  node.addEventListener('dragstart', dragStart);
 }
 
 function addTodo(text) {
@@ -46,6 +51,11 @@ function addTodo(text) {
   todoItems.push(todo);
   renderTodo(todo);
 }
+
+mainList.addEventListener('drop', (e) => {
+  const sortedTasks = todoItems.sort((a, b) => a.index - b.index);
+  drop(e, sortedTasks, renderTodo);
+});
 
 const form = document.querySelector('.js-form');
 form.addEventListener('submit', (event) => {
@@ -65,3 +75,12 @@ window.addEventListener('load', () => {
     renderTodo(todo);
   });
 });
+
+if (localStorage.getItem('tasks')) {
+  todoItems = JSON.parse(localStorage.getItem('tasks'));
+} else {
+  localStorage.setItem('tasks', JSON.stringify(todoItems));
+}
+
+const sortedTasks = todoItems.sort((a, b) => a.index - b.index);
+document.addEventListener('DOMContentLoaded', todoItems(sortedTasks));
