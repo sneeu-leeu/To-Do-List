@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-plusplus */
 
-import _, { each } from 'lodash';
+import _, { each, replace } from 'lodash';
 import './style.css';
 import { dragStart, dragOver, drop } from './move.js';
 
@@ -20,6 +20,7 @@ let todoItems = [{
 
 function renderTodo(todo) {
   const list = document.querySelector('.js-todo-list');
+  const item = document.querySelector(`[data-key='${todo.index}']`);
 
   const isChecked = todo.checked ? 'done' : '';
   const node = document.createElement('li');
@@ -36,6 +37,12 @@ function renderTodo(todo) {
       <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis-v" class="svg-inline--fa move move-js-todo fa-ellipsis-v fa-w-6" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512"><path fill="currentColor" d="M96 184c39.8 0 72 32.2 72 72s-32.2 72-72 72-72-32.2-72-72 32.2-72 72-72zM24 80c0 39.8 32.2 72 72 72s72-32.2 72-72S135.8 8 96 8 24 40.2 24 80zm0 352c0 39.8 32.2 72 72 72s72-32.2 72-72-32.2-72-72-72-72 32.2-72 72z"></path></svg>
     </div>
   `;
+
+  if (item) {
+    list.replaceChild(node, item);
+  } else {
+    list.append(node);
+  }
 
   list.appendChild(node);
   node.addEventListener('dragover', dragOver);
@@ -76,11 +83,24 @@ window.addEventListener('load', () => {
   });
 });
 
+function toggleDone(key) {
+  const index = todoItems.findIndex(item => item.id === Number(key));
+  todoItems[index].checked = !todoItems[index].checked;
+  renderTodo(todoItems[index]);
+}
+
+mainList.addEventListener('click', (event) => {
+  if (event.target.classList.contains('js-tick')) {
+    const itemKey = event.target.parentElement.dataset.key;
+    toggleDone(itemKey);
+  }
+});
+
 if (localStorage.getItem('tasks')) {
   todoItems = JSON.parse(localStorage.getItem('tasks'));
 } else {
   localStorage.setItem('tasks', JSON.stringify(todoItems));
 }
 
-const sortedTasks = todoItems.sort((a, b) => a.index - b.index);
-document.addEventListener('DOMContentLoaded', todoItems(sortedTasks));
+// const sortedTasks = todoItems.sort((a, b) => a.index - b.index);
+// document.addEventListener('DOMContentLoaded', todoItems(sortedTasks));
