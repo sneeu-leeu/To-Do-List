@@ -68,6 +68,11 @@ input.check {
   margin-right: 1.5em;
 }
 
+input.check:checked + label {
+  text-decoration: line-through;
+  color: rgba(0, 0, 0, 0.507);
+}
+
 .right {
   margin-right: 1em;
 }
@@ -98,3 +103,4 @@ input.check {
   color: rgba(0, 0, 0, 0.541);
   background-color: rgba(240, 240, 240, 0.836);
 }
+

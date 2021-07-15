@@ -1,26 +1,28 @@
-let currentPosition = 0;
-let currentlyDragging = 0;
-
-function dragStart(e) {
-  currentlyDragging = e.target.id;
+function taskDrag(e) {
+  e.dataTransfer.setData('elemntid', e.target.id);
 }
 
-function dragOver(e) {
+function ulDragEnter(e) {
+  if (e.target.classList.contains('dropzone')) {
+    e.target.classList.add('highlight');
+  }
+}
+
+function ulDragLeave(e) {
+  if (e.target.classList.contains('dropzone')) {
+    e.target.classList.remove('highlight');
+  }
+}
+
+function ulDragOver(e) {
   e.preventDefault();
-  currentPosition = e.target.id;
 }
 
-function drop(e, sortedTask, populate) {
-  const movedItem = sortedTask.splice(currentlyDragging, 1);
-  sortedTask.splice(currentPosition, 0, movedItem[0]);
+function taskDrop(e) {
+  if (e.target.classList.contains('dropzone')) {
+    e.target.classList.remove('highlight');
+  }
 
-  sortedTask.forEach((a, b) => {
-    a.index = b;
-  });
-
-  localStorage.setItem('tasks', JSON.stringify(sortedTask));
-  populate(sortedTask);
-  e.stopPropagation();
 }
 
-module.exports = { dragStart, dragOver, drop };
+module.exports = { taskDrag, ulDragEnter, ulDragLeave, ulDragOver, taskDrop };
