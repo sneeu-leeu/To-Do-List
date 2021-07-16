@@ -23,14 +23,6 @@ let todoItems = [{
   index: 1,
 }];
 
-// function dropzoneSet() {
-//   const ul = document.getElementById('js-todo-list');
-//   ul.addEventListener(dragenter, (e) => { ulDragEnter(e), false; });
-//   ul.addEventListener(dragleave, (e) => {ulDragLeave(e), false});
-//   ul.addEventListener(dragover, (e) => {ulDragOver(e), false});
-//   ul.addEventListener(drop, (e) => {itemDrop(e), this});
-// }
-
 function renderTodo(todo) {
   const list = document.querySelector('.js-todo-list');
   const item = document.querySelector(`[data-key='${todo.index}']`);
@@ -58,6 +50,8 @@ function renderTodo(todo) {
       const boxSelect = document.getElementById(`${todo.index}-box`);
       boxSelect.onchange = () => { changeStatus(todoItems, todo.index); };
     });
+    localStorage.clear();
+    localStorage.setItem('todo', JSON.stringify(todoItems));
   });
   node.addEventListener('drag', ulDragStart);
   node.addEventListener('dragover', ulDragOver);
@@ -72,6 +66,8 @@ function addTodo(text) {
   };
   todoItems.push(todo);
   renderTodo(todo);
+  localStorage.clear();
+  localStorage.setItem('todo', JSON.stringify(todoItems));
 }
 
 const form = document.querySelector('.js-form');
@@ -93,10 +89,9 @@ window.addEventListener('load', () => {
     const boxSelect = document.getElementById(`${todo.index}-box`);
     boxSelect.onchange = () => { changeStatus(todoItems, todo.index); };
   });
+  if (localStorage.getItem('todo')) {
+    todoItems = JSON.parse(localStorage.getItem('todo'));
+  } else {
+    localStorage.setItem('todo', JSON.stringify(todoItems));
+  }
 });
-
-if (localStorage.getItem('tasks')) {
-  todoItems = JSON.parse(localStorage.getItem('tasks'));
-} else {
-  localStorage.setItem('tasks', JSON.stringify(todoItems));
-}

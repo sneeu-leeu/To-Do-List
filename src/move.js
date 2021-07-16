@@ -12,7 +12,6 @@ function ulDragOver(e) {
 
 function ulDrop(arr) {
   const dumpObj = arr[dumpee];
-  // const dumpZoneObj = arr[dumpZone];
   arr.splice(dumpee, 1);
   arr.splice(dumpZone, 0, dumpObj);
 }
