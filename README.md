@@ -18,9 +18,11 @@
 
 To get a local copy up and running follow these simple example steps.
 
-### Setup
+### Local Setup
 
-Go to [My Repo](https://github.com/sneeu-leeu/To-Do-List/tree/development) and clone the project by openeing your terminal and entering "git clone" + "The link supplied". 
+- Go to [My Repo](https://github.com/sneeu-leeu/To-Do-List/tree/development) and clone the project by opening your terminal and entering "git clone" + "The link supplied". 
+
+- in your teminal type 'git checkout dinamic' to go to the current working branch.
 
 Open the repo in your code editor and launch it!
 
