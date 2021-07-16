@@ -1,28 +1,24 @@
-function taskDrag(e) {
-  e.dataTransfer.setData('elemntid', e.target.id);
-}
+let dumpee;
+let dumpZone;
 
-function ulDragEnter(e) {
-  if (e.target.classList.contains('dropzone')) {
-    e.target.classList.add('highlight');
-  }
-}
-
-function ulDragLeave(e) {
-  if (e.target.classList.contains('dropzone')) {
-    e.target.classList.remove('highlight');
-  }
+function ulDragStart(e) {
+  dumpee = parseInt(e.target.id, 10);
 }
 
 function ulDragOver(e) {
   e.preventDefault();
+  dumpZone = parseInt(e.target.id, 10);
 }
 
-function taskDrop(e) {
-  if (e.target.classList.contains('dropzone')) {
-    e.target.classList.remove('highlight');
-  }
-
+function ulDrop(arr) {
+  const dumpObj = arr[dumpee];
+  // const dumpZoneObj = arr[dumpZone];
+  arr.splice(dumpee, 1);
+  arr.splice(dumpZone, 0, dumpObj);
 }
 
-module.exports = { taskDrag, ulDragEnter, ulDragLeave, ulDragOver, taskDrop };
+export {
+  ulDragStart,
+  ulDragOver,
+  ulDrop,
+};

@@ -3,7 +3,11 @@
 
 import _, { each, replace } from 'lodash';
 import './style.css';
-import { dragStart, dragOver, drop } from './move.js';
+import {
+  ulDragStart,
+  ulDragOver,
+  ulDrop,
+} from './move.js';
 import changeStatus from './status.js';
 
 const mainList = document.getElementById('js-todo-list');
@@ -19,13 +23,13 @@ let todoItems = [{
   index: 1,
 }];
 
-function dropzoneSet() {
-  const ul = document.getElementById('js-todo-list');
-  ul.addEventListener(dragenter, (e) => { ulDragEnter(e), false; });
-  ul.addEventListener(dragleave, (e) => {ulDragLeave(e), false});
-  ul.addEventListener(dragover, (e) => {ulDragOver(e), false});
-  ul.addEventListener(drop, (e) => {itemDrop(e), this});
-}
+// function dropzoneSet() {
+//   const ul = document.getElementById('js-todo-list');
+//   ul.addEventListener(dragenter, (e) => { ulDragEnter(e), false; });
+//   ul.addEventListener(dragleave, (e) => {ulDragLeave(e), false});
+//   ul.addEventListener(dragover, (e) => {ulDragOver(e), false});
+//   ul.addEventListener(drop, (e) => {itemDrop(e), this});
+// }
 
 function renderTodo(todo) {
   const list = document.querySelector('.js-todo-list');
@@ -36,16 +40,27 @@ function renderTodo(todo) {
   node.setAttribute('class', `todo-item ${isChecked} border flex height pad-left drag`);
   node.setAttribute('data-key', todo.index);
   node.setAttribute('draggable', true);
+  node.id = todo.index;
   node.innerHTML = `
     <div class="left flex">
-      <input class="check" id="${todo.index}" type="checkbox"/>
-      <label for="${todo.index}" class="tick js-tick">${todo.text}</label>
+      <input class="check" id="${todo.index}-box" type="checkbox"/>
+      <label for="${todo.index}-box" class="tick js-tick">${todo.text}</label>
     </div>
     <div class="right flex">
       <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis-v" class="svg-inline--fa move move-js-todo fa-ellipsis-v fa-w-6" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512"><path fill="currentColor" d="M96 184c39.8 0 72 32.2 72 72s-32.2 72-72 72-72-32.2-72-72 32.2-72 72-72zM24 80c0 39.8 32.2 72 72 72s72-32.2 72-72S135.8 8 96 8 24 40.2 24 80zm0 352c0 39.8 32.2 72 72 72s72-32.2 72-72-32.2-72-72-72-72 32.2-72 72z"></path></svg>
     </div>
   `;
-  node.addEventListener('dragStart', (e) => { taskDrag(e), false; });
+  node.addEventListener('drop', () => {
+    ulDrop(todoItems);
+    mainList.innerText = '';
+    todoItems.forEach((todo) => {
+      renderTodo(todo);
+      const boxSelect = document.getElementById(`${todo.index}-box`);
+      boxSelect.onchange = () => { changeStatus(todoItems, todo.index); };
+    });
+  });
+  node.addEventListener('drag', ulDragStart);
+  node.addEventListener('dragover', ulDragOver);
   list.appendChild(node);
 }
 
@@ -75,7 +90,7 @@ form.addEventListener('submit', (event) => {
 window.addEventListener('load', () => {
   todoItems.forEach((todo) => {
     renderTodo(todo);
-    const boxSelect = document.getElementById(todo.index);
+    const boxSelect = document.getElementById(`${todo.index}-box`);
     boxSelect.onchange = () => { changeStatus(todoItems, todo.index); };
   });
 });
