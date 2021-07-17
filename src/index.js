@@ -10,9 +10,18 @@ import {
 } from './move.js';
 import changeStatus from './status.js';
 
-const mainList = document.getElementById('js-todo-list');
+let list = document.getElementById('list');
 
-let todoItems = [{
+let mainList = document.getElementById('js-todo-list');
+
+const localList = JSON.parse(localStorage.getItem('stuff'));
+if (localList !== null) {
+  mainList = localList.arr;
+} else {
+  mainList = [];
+}
+
+const todoItems = [{
   text: 'Finish Project',
   checked: false,
   index: 0,
@@ -22,6 +31,12 @@ let todoItems = [{
   checked: false,
   index: 1,
 }];
+
+function updateLocalStorage() {
+  localStorage.setItem('stuff', JSON.stringify({
+    arr: list,
+  }));
+}
 
 function renderTodo(todo) {
   const list = document.querySelector('.js-todo-list');
@@ -42,6 +57,8 @@ function renderTodo(todo) {
       <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis-v" class="svg-inline--fa move move-js-todo fa-ellipsis-v fa-w-6" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512"><path fill="currentColor" d="M96 184c39.8 0 72 32.2 72 72s-32.2 72-72 72-72-32.2-72-72 32.2-72 72-72zM24 80c0 39.8 32.2 72 72 72s72-32.2 72-72S135.8 8 96 8 24 40.2 24 80zm0 352c0 39.8 32.2 72 72 72s72-32.2 72-72-32.2-72-72-72-72 32.2-72 72z"></path></svg>
     </div>
   `;
+  node.addEventListener('drag', ulDragStart);
+  node.addEventListener('dragover', ulDragOver);
   node.addEventListener('drop', () => {
     ulDrop(todoItems);
     mainList.innerText = '';
@@ -51,11 +68,11 @@ function renderTodo(todo) {
       boxSelect.onchange = () => { changeStatus(todoItems, todo.index); };
     });
     localStorage.clear();
-    localStorage.setItem('todo', JSON.stringify(todoItems));
+    updateLocalStorage();
   });
-  node.addEventListener('drag', ulDragStart);
-  node.addEventListener('dragover', ulDragOver);
   list.appendChild(node);
+  localStorage.clear();
+  updateLocalStorage();
 }
 
 function addTodo(text) {
@@ -67,7 +84,7 @@ function addTodo(text) {
   todoItems.push(todo);
   renderTodo(todo);
   localStorage.clear();
-  localStorage.setItem('todo', JSON.stringify(todoItems));
+  updateLocalStorage();
 }
 
 const form = document.querySelector('.js-form');
@@ -88,10 +105,6 @@ window.addEventListener('load', () => {
     renderTodo(todo);
     const boxSelect = document.getElementById(`${todo.index}-box`);
     boxSelect.onchange = () => { changeStatus(todoItems, todo.index); };
+    updateLocalStorage();
   });
-  if (localStorage.getItem('todo')) {
-    todoItems = JSON.parse(localStorage.getItem('todo'));
-  } else {
-    localStorage.setItem('todo', JSON.stringify(todoItems));
-  }
 });
