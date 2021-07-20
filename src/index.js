@@ -10,8 +10,6 @@ import {
 } from './move.js';
 import changeStatus from './status.js';
 
-// let list = document.getElementById('list');
-
 let mainList = document.getElementById('js-todo-list');
 
 // const localList = JSON.parse(localStorage.getItem('stuff'));
@@ -64,8 +62,8 @@ function renderTodo(todo) {
     mainList.innerText = '';
     todoItems.forEach((todo) => {
       renderTodo(todo);
-      const boxSelect = document.getElementById(`${todo.index}-box`);
-      boxSelect.onchange = () => { changeStatus(todoItems, todo.index); };
+      // const boxSelect = document.getElementById(`${todo.index}-box`);
+      // boxSelect.onchange = () => { changeStatus(todoItems, todo.index); };
     });
     // localStorage.clear();
     // updateLocalStorage();
