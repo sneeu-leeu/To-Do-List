@@ -10,16 +10,16 @@ import {
 } from './move.js';
 import changeStatus from './status.js';
 
-let list = document.getElementById('list');
+// let list = document.getElementById('list');
 
 let mainList = document.getElementById('js-todo-list');
 
-const localList = JSON.parse(localStorage.getItem('stuff'));
-if (localList !== null) {
-  mainList = localList.arr;
-} else {
-  mainList = [];
-}
+// const localList = JSON.parse(localStorage.getItem('stuff'));
+// if (localList !== null) {
+//   mainList = localList.arr;
+// } else {
+//   mainList = [];
+// }
 
 const todoItems = [{
   text: 'Finish Project',
@@ -32,11 +32,11 @@ const todoItems = [{
   index: 1,
 }];
 
-function updateLocalStorage() {
-  localStorage.setItem('stuff', JSON.stringify({
-    arr: list,
-  }));
-}
+// function updateLocalStorage() {
+//   localStorage.setItem('stuff', JSON.stringify({
+//     arr: mainList,
+//   }));
+// }
 
 function renderTodo(todo) {
   const list = document.querySelector('.js-todo-list');
@@ -67,12 +67,12 @@ function renderTodo(todo) {
       const boxSelect = document.getElementById(`${todo.index}-box`);
       boxSelect.onchange = () => { changeStatus(todoItems, todo.index); };
     });
-    localStorage.clear();
-    updateLocalStorage();
+    // localStorage.clear();
+    // updateLocalStorage();
   });
   list.appendChild(node);
-  localStorage.clear();
-  updateLocalStorage();
+  // localStorage.clear();
+  // updateLocalStorage();
 }
 
 function addTodo(text) {
@@ -83,8 +83,8 @@ function addTodo(text) {
   };
   todoItems.push(todo);
   renderTodo(todo);
-  localStorage.clear();
-  updateLocalStorage();
+  // localStorage.clear();
+  // updateLocalStorage();
 }
 
 const form = document.querySelector('.js-form');
@@ -105,6 +105,5 @@ window.addEventListener('load', () => {
     renderTodo(todo);
     const boxSelect = document.getElementById(`${todo.index}-box`);
     boxSelect.onchange = () => { changeStatus(todoItems, todo.index); };
-    updateLocalStorage();
   });
 });
