@@ -10,7 +10,7 @@ import {
 } from './move.js';
 import changeStatus from './status.js';
 
-let mainList = document.getElementById('js-todo-list');
+const mainList = document.getElementById('js-todo-list');
 
 let todoItems = [{
   text: 'Finish Project',
@@ -63,7 +63,6 @@ function renderTodo(todo) {
         storeItems();
       };
     });
-    // localStorage.clear();
     storeItems();
   });
   list.appendChild(node);
@@ -108,5 +107,3 @@ window.addEventListener('load', () => {
     storeItems();
   });
 });
-
-export default storeItems;
