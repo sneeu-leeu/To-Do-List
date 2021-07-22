@@ -12,7 +12,7 @@ import changeStatus from './status.js';
 
 let mainList = document.getElementById('js-todo-list');
 
-const todoItems = [{
+let todoItems = [{
   text: 'Finish Project',
   checked: false,
   index: 0,
@@ -23,8 +23,13 @@ const todoItems = [{
   index: 1,
 }];
 
-window.setItem
-let localList = window.localStorage.getItem('items', JSON.stringify(todoItems));
+function storeItems() {
+  localStorage.setItem('todoItems', JSON.stringify(todoItems));
+}
+
+function loadItems() {
+  todoItems = JSON.parse(localStorage.getItem('todoItems') || '[]');
+}
 
 function renderTodo(todo) {
   const list = document.querySelector('.js-todo-list');
@@ -53,10 +58,16 @@ function renderTodo(todo) {
     todoItems.forEach((todo) => {
       renderTodo(todo);
       const boxSelect = document.getElementById(`${todo.index}-box`);
-      boxSelect.onchange = () => { changeStatus(todoItems, todo.index); };
+      boxSelect.onchange = () => {
+        changeStatus(todoItems, todo.index);
+        storeItems();
+      };
     });
+    // localStorage.clear();
+    storeItems();
   });
   list.appendChild(node);
+  storeItems();
 }
 
 function addTodo(text) {
@@ -69,6 +80,7 @@ function addTodo(text) {
   renderTodo(todo);
   const boxSelect = document.getElementById(`${todo.index}-box`);
   boxSelect.onchange = () => { changeStatus(todoItems, todo.index); };
+  storeItems();
 }
 
 const form = document.querySelector('.js-form');
@@ -85,10 +97,16 @@ form.addEventListener('submit', (event) => {
 });
 
 window.addEventListener('load', () => {
+  loadItems();
   todoItems.forEach((todo) => {
     renderTodo(todo);
     const boxSelect = document.getElementById(`${todo.index}-box`);
-    boxSelect.onchange = () => { changeStatus(todoItems, todo.index); };
-    // window.localStorage.getItem('items');
+    boxSelect.onchange = () => {
+      changeStatus(todoItems, todo.index);
+      storeItems();
+    };
+    storeItems();
   });
 });
+
+export default storeItems;
